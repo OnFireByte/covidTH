@@ -47,7 +47,7 @@ async function fetchData() {
     const date = new Date();
     const localDate = date.toLocaleDateString("en-GB");
     const localDateSplited = localDate.split("/");
-    const localDateNoYear = `${localDateSplited[1]}/${localDateSplited[0]}`;
+    const localDateNoYear = `${localDateSplited[0]}/${localDateSplited[1]}`;
     dataObj.dateArr.push(localDateNoYear);
 
     return dataObj;
