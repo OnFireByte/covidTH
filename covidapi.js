@@ -39,15 +39,16 @@ async function fetchData() {
 
         thisDate = beforeData[i].Date;
         thisDateSplited = thisDate.split("/");
-        thisDateLocal = `${thisDateSplited[1]}/${thisDateSplited[0]}/${thisDateSplited[2]}`;
+        thisDateLocal = `${thisDateSplited[1]}/${thisDateSplited[0]}`;
         dataObj.dateArr.push(thisDateLocal);
     }
     dataObj.infectedArr.push(todayData.NewConfirmed);
     dataObj.deathArr.push(todayData.NewDeaths);
     const date = new Date();
-    dataObj.dateArr.push(date.toLocaleDateString("en-GB"));
-
-    console.log(dataObj);
+    const localDate = date.toLocaleDateString("en-GB");
+    const localDateSplited = localDate.split("/");
+    const localDateNoYear = `${localDateSplited[1]}/${localDateSplited[0]}`;
+    dataObj.dateArr.push(localDateNoYear);
 
     return dataObj;
 }
@@ -69,14 +70,17 @@ window.addEventListener("DOMContentLoaded", async () => {
                     data: infectedArr,
                     backgroundColor: ["rgba(255, 165, 0, 1)"],
                     borderColor: ["rgba(255, 165, 0, 1)"],
-                    borderWidth: 1,
+                    borderWidth: 2,
+                    tension: 0.25,
                 },
             ],
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true,
+                    beginAtZero: false,
                 },
             },
         },
@@ -93,14 +97,17 @@ window.addEventListener("DOMContentLoaded", async () => {
                     data: deathArr,
                     backgroundColor: ["rgba(255, 99, 132, 1)"],
                     borderColor: ["rgba(255, 99, 132, 1)"],
-                    borderWidth: 1,
+                    borderWidth: 2,
+                    tension: 0.25,
                 },
             ],
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true,
+                    beginAtZero: false,
                 },
             },
         },

@@ -8,14 +8,24 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript.util/0.12.12/javascript.util.min.js"></script>
     <script src="covidapi.min.js"></script>
-    <title>Document</title>
+    <link rel="stylesheet" href="style.min.css">
+    <title>Covid-19 in Thailand</title>
 </head>
 
 <body>
-    <div class="">Infected : <span id="infected"></span> (<span id="infectedDiff"></span>)</div>
-    <div class="">Death : <span id="death"></span> (<span id="deathDiff"></span>)</div>
-    <canvas id="infectedChart" width="200" height="50"></canvas>
-    <canvas id="deathChart" width="200" height="50"></canvas>
+    <div class="main">
+        <div class="">Infected : <span id="infected"></span> (<span id="infectedDiff"></span>)</div>
+        <div class="">Death : <span id="death"></span> (<span id="deathDiff"></span>)</div>
+        <div class="chart-container">
+            <div class="chart">
+                <canvas id="infectedChart"></canvas>
+            </div>
+            <div class="chart">
+                <canvas id="deathChart"></canvas>
+            </div>
+        </div>
+
+    </div>
 </body>
 
 </html>
