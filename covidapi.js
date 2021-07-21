@@ -33,7 +33,7 @@ async function fetchData() {
         deathArr: [],
     };
 
-    for (let i = beforeData.length - 14; i < beforeData.length; i++) {
+    for (let i = beforeData.length - 29; i < beforeData.length; i++) {
         dataObj.infectedArr.push(beforeData[i].NewConfirmed);
         dataObj.deathArr.push(beforeData[i].NewDeaths);
 
