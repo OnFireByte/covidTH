@@ -105,6 +105,10 @@ window.addEventListener("DOMContentLoaded", async () => {
                     beginAtZero: false,
                 },
             },
+            interaction: {
+                mode: "index",
+                intersect: false,
+            },
         },
     });
 
@@ -131,6 +135,10 @@ window.addEventListener("DOMContentLoaded", async () => {
                 y: {
                     beginAtZero: false,
                 },
+            },
+            interaction: {
+                mode: "index",
+                intersect: false,
             },
         },
     });
