@@ -1,9 +1,9 @@
 const diff = (a, b) => {
     return a - b >= 0 ? `+${a - b}` : `-${b - a}`;
 };
-function comma(x) {
+const comma = (x) => {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-}
+};
 
 async function fetchData() {
     const todayData = await fetch(
