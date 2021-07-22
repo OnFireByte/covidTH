@@ -1,6 +1,9 @@
 const diff = (a, b) => {
     return a - b >= 0 ? `+${a - b}` : `-${b - a}`;
 };
+function comma(x) {
+    return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+}
 
 async function fetchData() {
     const todayData = await fetch(
@@ -21,17 +24,30 @@ async function fetchData() {
 
     document.getElementById("updateDate").innerHTML = todayData.UpdateDate;
 
-    document.getElementById("infected").innerHTML = todayData.NewConfirmed;
-    document.getElementById("infectedDiff").innerHTML = diff(
-        todayData.NewConfirmed,
-        yesterdayData.NewConfirmed
+    document.getElementById("infected").innerHTML = comma(todayData.NewConfirmed);
+    document.getElementById("infectedDiff").innerHTML = comma(
+        diff(todayData.NewConfirmed, yesterdayData.NewConfirmed)
     );
 
-    document.getElementById("death").innerHTML = todayData.NewDeaths;
-    document.getElementById("deathDiff").innerHTML = diff(
-        todayData.NewDeaths,
-        yesterdayData.NewDeaths
+    document.getElementById("death").innerHTML = comma(todayData.NewDeaths);
+    document.getElementById("deathDiff").innerHTML = comma(
+        diff(todayData.NewDeaths, yesterdayData.NewDeaths)
     );
+
+    document.getElementById("hospitalized").innerHTML = comma(todayData.NewHospitalized);
+    document.getElementById("hospitalizedDiff").innerHTML = comma(
+        diff(todayData.NewHospitalized, yesterdayData.NewHospitalized)
+    );
+
+    document.getElementById("recovered").innerHTML = comma(todayData.NewRecovered);
+    document.getElementById("recoveredDiff").innerHTML = comma(
+        diff(todayData.NewRecovered, yesterdayData.NewRecovered)
+    );
+
+    document.getElementById("totalInfected").innerHTML = comma(todayData.Confirmed);
+    document.getElementById("totalDeath").innerHTML = comma(todayData.Deaths);
+    document.getElementById("totalHospitalized").innerHTML = comma(todayData.Hospitalized);
+    document.getElementById("totalRecovered").innerHTML = comma(todayData.Recovered);
 
     let dataObj = {
         infectedArr: [],

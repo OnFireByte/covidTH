@@ -9,14 +9,57 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript.util/0.12.12/javascript.util.min.js"></script>
     <script src="covidapi.min.js"></script>
     <link rel="stylesheet" href="style.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet'
+        type='text/css'>
     <title>Covid-19 in Thailand</title>
 </head>
 
 <body>
     <div class="main">
-        <div class="">Update Date : <span id="updateDate"></span></div>
-        <div class="">Infected : <span id="infected"></span> (<span id="infectedDiff"></span>)</div>
-        <div class="">Death : <span id="death"></span> (<span id="deathDiff"></span>)</div>
+        <h1 class="header">Thai Covid Stat</h1>
+        <div class="box-container">
+            <div class="infected box"><span class="box-header">Infected</span>
+                <div>
+                    <span class="big-num" id="infected"></span>
+                    (<span class="small-num" id="infectedDiff"></span>)
+                </div>
+            </div>
+            <div class="death box"><span class="box-header">Death</span>
+                <div>
+                    <span class="big-num" id="death"></span>
+                    (<span class="small-num" id="deathDiff"></span>)
+                </div>
+            </div>
+            <div class="hospitalized box"><span class="box-header">Hospitalized</span>
+                <div>
+                    <span class="big-num" id="hospitalized"></span>
+                    (<span class="small-num" id="hospitalizedDiff"></span>)
+                </div>
+            </div>
+            <div class="recovered box"><span class="box-header">Recovered</span>
+                <div>
+                    <span class="big-num" id="recovered"></span>
+                    (<span class="small-num" id="recoveredDiff"></span>)
+                </div>
+            </div>
+            <div class="total box">
+                <span class="total-header">Total</span><br>
+                <div class="total-grid">
+                    <div class="total-infected">
+                        <div class="total-title">Infected :</div> <span id="totalInfected"></span>
+                    </div>
+                    <div class="total-death">
+                        <div class="total-title">Death :</div> <span id="totalDeath"></span>
+                    </div>
+                    <div class="total-hospitalized">
+                        <div class="total-title">Hospitalized :</div> <span id="totalHospitalized"></span>
+                    </div>
+                    <div class="total-recovered">
+                        <div class="total-title">Recovered :</div> <span id="totalRecovered"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="chart-container">
             <div class="chart">
                 <canvas id="infectedChart"></canvas>
@@ -26,6 +69,7 @@
             </div>
 
         </div>
+        <div class="">Update Date : <span id="updateDate"></span></div>
     </div>
     <div class="footer">
         <div class="credit">
