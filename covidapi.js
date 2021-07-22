@@ -42,13 +42,13 @@ async function fetchData() {
         thisDateLocal = `${thisDateSplited[1]}/${thisDateSplited[0]}`;
         dataObj.dateArr.push(thisDateLocal);
     }
-    dataObj.infectedArr.push(todayData.NewConfirmed);
-    dataObj.deathArr.push(todayData.NewDeaths);
-    const date = new Date();
-    const localDate = date.toLocaleDateString("en-GB");
-    const localDateSplited = localDate.split("/");
+    const localDateSplited = todayData.UpdateDate.split("/");
     const localDateNoYear = `${localDateSplited[0]}/${localDateSplited[1]}`;
-    dataObj.dateArr.push(localDateNoYear);
+    if (localDateNoYear != dataObj.dateArr[dataObj.dateArr.length - 1]) {
+        dataObj.infectedArr.push(todayData.NewConfirmed);
+        dataObj.deathArr.push(todayData.NewDeaths);
+        dataObj.dateArr.push(localDateNoYear);
+    }
 
     return dataObj;
 }
