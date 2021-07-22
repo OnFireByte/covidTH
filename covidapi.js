@@ -13,7 +13,13 @@ async function fetchData() {
 
     const beforeData = beforeDataAPI.Data;
 
-    const yesterdayData = beforeData[beforeData.length - 1];
+    const yesterdayData =
+        //check that last item of "beforeData" array is yesterday or today
+        beforeData[beforeData.length - 1].Confirmed != todayData.Confirmed
+            ? beforeData[beforeData.length - 1]
+            : beforeData[beforeData.length - 2];
+
+    document.getElementById("updateDate").innerHTML = todayData.UpdateDate;
 
     document.getElementById("infected").innerHTML = todayData.NewConfirmed;
     document.getElementById("infectedDiff").innerHTML = diff(
