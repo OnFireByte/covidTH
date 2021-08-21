@@ -72,6 +72,9 @@ async function fetchData() {
         dataObj.dateArr.push(localDateNoYear);
     }
 
+    document.getElementById("showWhenFetch").style.display = "block";
+    document.getElementById("loading").style.display = "none";
+
     return dataObj;
 }
 

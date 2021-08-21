@@ -23,64 +23,91 @@
 <body>
     <div class="main">
         <h1 class="header">Thai Covid Stat</h1>
-        <div class="box-container">
-            <div class="infected box"><span class="box-header">Infected</span>
-                <div>
-                    <span class="big-num" id="infected"></span>
-                    (<span class="small-num" id="infectedDiff"></span>)
-                </div>
-            </div>
-            <div class="death box"><span class="box-header">Death</span>
-                <div>
-                    <span class="big-num" id="death"></span>
-                    (<span class="small-num" id="deathDiff"></span>)
-                </div>
-            </div>
-            <div class="hospitalized box"><span class="box-header">Hospitalized</span>
-                <div>
-                    <span class="big-num" id="hospitalized"></span>
-                    (<span class="small-num" id="hospitalizedDiff"></span>)
-                </div>
-            </div>
-            <div class="recovered box"><span class="box-header">Recovered</span>
-                <div>
-                    <span class="big-num" id="recovered"></span>
-                    (<span class="small-num" id="recoveredDiff"></span>)
-                </div>
-            </div>
-            <div class="total box">
-                <span class="total-header">Total</span><br>
-                <div class="total-grid">
-                    <div class="total-infected">
-                        <div class="total-title">Infected :</div> <span id="totalInfected"></span>
-                    </div>
-                    <div class="total-death">
-                        <div class="total-title">Death :</div> <span id="totalDeath"></span>
-                    </div>
-                    <div class="total-hospitalized">
-                        <div class="total-title">Hospitalized :</div> <span id="totalHospitalized"></span>
-                    </div>
-                    <div class="total-recovered">
-                        <div class="total-title">Recovered :</div> <span id="totalRecovered"></span>
-                    </div>
-                </div>
-            </div>
+        <div id="loading">
+            <svg width="200" height="200" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" stroke="currentColor">
+                <g fill="none" fill-rule="evenodd" stroke-width="2">
+                    <circle cx="22" cy="22" r="1">
+                        <animate attributeName="r" begin="0s" dur="1.8s" values="1; 20" calcMode="spline"
+                            keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite" />
+                        <animate attributeName="stroke-opacity" begin="0s" dur="1.8s" values="1; 0" calcMode="spline"
+                            keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite" />
+                    </circle>
+                    <circle cx="22" cy="22" r="1">
+                        <animate attributeName="r" begin="-0.9s" dur="1.8s" values="1; 20" calcMode="spline"
+                            keyTimes="0; 1" keySplines="0.165, 0.84, 0.44, 1" repeatCount="indefinite" />
+                        <animate attributeName="stroke-opacity" begin="-0.9s" dur="1.8s" values="1; 0" calcMode="spline"
+                            keyTimes="0; 1" keySplines="0.3, 0.61, 0.355, 1" repeatCount="indefinite" />
+                    </circle>
+                </g>
+            </svg>
+            <p style="text-align: center;font-size: 18px;">If it takes too long to load. It's very likely that the API
+                server is down,
+                <br>which is out of my ability to fix 😥
+            </p>
         </div>
-        <div class="chart-container">
-            <div class="chart">
-                <canvas id="infectedChart"></canvas>
+        <div id="showWhenFetch" style="display:none;">
+            <div class="box-container">
+                <div class="infected box"><span class="box-header">Infected</span>
+                    <div>
+                        <span class="big-num" id="infected"></span>
+                        (<span class="small-num" id="infectedDiff"></span>)
+                    </div>
+                </div>
+                <div class="death box"><span class="box-header">Death</span>
+                    <div>
+                        <span class="big-num" id="death"></span>
+                        (<span class="small-num" id="deathDiff"></span>)
+                    </div>
+                </div>
+                <div class="hospitalized box"><span class="box-header">Hospitalized</span>
+                    <div>
+                        <span class="big-num" id="hospitalized"></span>
+                        (<span class="small-num" id="hospitalizedDiff"></span>)
+                    </div>
+                </div>
+                <div class="recovered box"><span class="box-header">Recovered</span>
+                    <div>
+                        <span class="big-num" id="recovered"></span>
+                        (<span class="small-num" id="recoveredDiff"></span>)
+                    </div>
+                </div>
+                <div class="total box">
+                    <span class="total-header">Total</span><br>
+                    <div class="total-grid">
+                        <div class="total-infected">
+                            <div class="total-title">Infected :</div> <span id="totalInfected"></span>
+                        </div>
+                        <div class="total-death">
+                            <div class="total-title">Death :</div> <span id="totalDeath"></span>
+                        </div>
+                        <div class="total-hospitalized">
+                            <div class="total-title">Hospitalized :</div> <span id="totalHospitalized"></span>
+                        </div>
+                        <div class="total-recovered">
+                            <div class="total-title">Recovered :</div> <span id="totalRecovered"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="chart">
-                <canvas id="deathChart"></canvas>
-            </div>
+            <div class="chart-container">
+                <div class="chart">
+                    <canvas id="infectedChart"></canvas>
+                </div>
+                <div class="chart">
+                    <canvas id="deathChart"></canvas>
+                </div>
 
+            </div>
+            <div class="">Update Date : <span id="updateDate"></span></div>
         </div>
-        <div class="">Update Date : <span id="updateDate"></span></div>
+
     </div>
     <div class="footer">
         <div class="credit">
-            <div class="tenor-gif-embed" data-postid="22402957" data-share-method="host" data-width="100%"
-                data-aspect-ratio="1.0"><a href="https://tenor.com/view/gif-22402957">GIF</a> </div>
+            <div class="tenor-gif-embed" data-postid="22402955" data-share-method="host" data-width="100%"
+                data-aspect-ratio="1.0"><a
+                    href="https://tenor.com/view/kimbo-kimbothewildcat-floppa-big-floppa-caracal-gif-22402955">Kimbo
+                    Kimbothewildcat GIF</a> from <a href="https://tenor.com/search/kimbo-gifs">Kimbo GIFs</a></div>
             <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
         </div>
