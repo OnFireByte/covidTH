@@ -5,7 +5,12 @@ const comma = (x) => {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 };
 
+let fetchData_cache = {};
 async function fetchData() {
+    if (fetchData_cache) {
+        return fetchData_cache;
+    }
+
     const todayData = await fetch(
         "https://covid19.th-stat.com/json/covid19v2/getTodayCases.json"
     ).then((r) => r.json());
@@ -21,6 +26,42 @@ async function fetchData() {
         beforeData[beforeData.length - 1].Confirmed != todayData.Confirmed
             ? beforeData[beforeData.length - 1]
             : beforeData[beforeData.length - 2];
+
+    let dataObj = {
+        Datas: [...beforeData, todayData],
+        Arrs: {
+            infectedArr: [],
+            dateArr: [],
+            deathArr: [],
+        },
+    };
+
+    for (let i = beforeData.length - 29; i < beforeData.length; i++) {
+        dataObj.infectedArr.push(beforeData[i].NewConfirmed);
+        dataObj.deathArr.push(beforeData[i].NewDeaths);
+
+        thisDate = beforeData[i].Date;
+        thisDateSplited = thisDate.split("/");
+        thisDateLocal = `${thisDateSplited[1]}/${thisDateSplited[0]}`;
+        dataObj.dateArr.push(thisDateLocal);
+    }
+    const localDateSplited = todayData.UpdateDate.split("/");
+    const localDateNoYear = `${localDateSplited[0]}/${localDateSplited[1]}`;
+    if (localDateNoYear != dataObj.dateArr[dataObj.dateArr.length - 1]) {
+        dataObj.infectedArr.push(todayData.NewConfirmed);
+        dataObj.deathArr.push(todayData.NewDeaths);
+        dataObj.dateArr.push(localDateNoYear);
+    }
+
+    fetchData_cache = dataObj;
+    return dataObj;
+}
+
+const updateDataInSite = async () => {
+    const Datas = await fetchData().Datas;
+
+    const todayData = Datas[Datas.length - 1];
+    const yesterdayData = Datas[Datas.length - 2];
 
     document.getElementById("updateDate").innerHTML = todayData.UpdateDate;
 
@@ -49,40 +90,16 @@ async function fetchData() {
     document.getElementById("totalHospitalized").innerHTML = comma(todayData.Hospitalized);
     document.getElementById("totalRecovered").innerHTML = comma(todayData.Recovered);
 
-    let dataObj = {
-        infectedArr: [],
-        dateArr: [],
-        deathArr: [],
-    };
-
-    for (let i = beforeData.length - 29; i < beforeData.length; i++) {
-        dataObj.infectedArr.push(beforeData[i].NewConfirmed);
-        dataObj.deathArr.push(beforeData[i].NewDeaths);
-
-        thisDate = beforeData[i].Date;
-        thisDateSplited = thisDate.split("/");
-        thisDateLocal = `${thisDateSplited[1]}/${thisDateSplited[0]}`;
-        dataObj.dateArr.push(thisDateLocal);
-    }
-    const localDateSplited = todayData.UpdateDate.split("/");
-    const localDateNoYear = `${localDateSplited[0]}/${localDateSplited[1]}`;
-    if (localDateNoYear != dataObj.dateArr[dataObj.dateArr.length - 1]) {
-        dataObj.infectedArr.push(todayData.NewConfirmed);
-        dataObj.deathArr.push(todayData.NewDeaths);
-        dataObj.dateArr.push(localDateNoYear);
-    }
-
     document.getElementById("showWhenFetch").style.display = "block";
     document.getElementById("loading").style.display = "none";
-
-    return dataObj;
-}
+};
 
 fetchData();
+
 window.addEventListener("DOMContentLoaded", async () => {
-    const infectedArr = await fetchData().then((r) => r.infectedArr);
-    const deathArr = await fetchData().then((r) => r.deathArr);
-    const dateArr = await fetchData().then((r) => r.dateArr);
+    const infectedArr = await fetchData().then((r) => r.Arrs.infectedArr);
+    const deathArr = await fetchData().then((r) => r.Arrs.deathArr);
+    const dateArr = await fetchData().then((r) => r.Arrs.dateArr);
 
     var infectedChart_ctx = document.getElementById("infectedChart").getContext("2d");
     var infectedChart = new Chart(infectedChart_ctx, {
