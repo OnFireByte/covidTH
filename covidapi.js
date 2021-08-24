@@ -5,46 +5,33 @@ const comma = (x) => {
     return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 };
 
-let fetchData_cache = {};
-async function fetchData() {
-    if (fetchData_cache) {
-        return fetchData_cache;
-    }
+let fetchData_cache;
+const fetchData = async () => {
+    if (fetchData_cache) return fetchData_cache; //return cache so we dont have to fetch data again
 
-    const todayData = await fetch(
-        "https://covid19.th-stat.com/json/covid19v2/getTodayCases.json"
-    ).then((r) => r.json());
+    const todayData = await fetch("./testdata/getTodayCases.json").then((r) => r.json());
 
-    const beforeDataAPI = await fetch(
-        "https://covid19.th-stat.com/json/covid19v2/getTimeline.json"
-    ).then((r) => r.json());
-
+    const beforeDataAPI = await fetch("./testdata/getTimeline.json").then((r) => r.json());
     const beforeData = beforeDataAPI.Data;
-
-    const yesterdayData =
-        //check that last item of "beforeData" array is yesterday or today
-        beforeData[beforeData.length - 1].Confirmed != todayData.Confirmed
-            ? beforeData[beforeData.length - 1]
-            : beforeData[beforeData.length - 2];
 
     let dataObj = {
         Datas: [...beforeData, todayData],
-        Arrs: {
-            infectedArr: [],
-            dateArr: [],
-            deathArr: [],
-        },
+        infectedArr: [],
+        dateArr: [],
+        deathArr: [],
     };
 
-    for (let i = beforeData.length - 29; i < beforeData.length; i++) {
-        dataObj.infectedArr.push(beforeData[i].NewConfirmed);
-        dataObj.deathArr.push(beforeData[i].NewDeaths);
+    beforeData
+        .slice(-30) //keep only last 30 items in array
+        .forEach((data) => {
+            dataObj.infectedArr.push(data.NewConfirmed);
+            dataObj.deathArr.push(data.NewDeaths);
 
-        thisDate = beforeData[i].Date;
-        thisDateSplited = thisDate.split("/");
-        thisDateLocal = `${thisDateSplited[1]}/${thisDateSplited[0]}`;
-        dataObj.dateArr.push(thisDateLocal);
-    }
+            thisDateSplited = data.Date.split("/");
+            thisDateLocal = `${thisDateSplited[1]}/${thisDateSplited[0]}`;
+            dataObj.dateArr.push(thisDateLocal);
+        });
+
     const localDateSplited = todayData.UpdateDate.split("/");
     const localDateNoYear = `${localDateSplited[0]}/${localDateSplited[1]}`;
     if (localDateNoYear != dataObj.dateArr[dataObj.dateArr.length - 1]) {
@@ -55,13 +42,13 @@ async function fetchData() {
 
     fetchData_cache = dataObj;
     return dataObj;
-}
+};
 
 const updateDataInSite = async () => {
-    const Datas = await fetchData().Datas;
-
-    const todayData = Datas[Datas.length - 1];
-    const yesterdayData = Datas[Datas.length - 2];
+    const RawDatas = await fetchData();
+    const Datas = RawDatas.Datas;
+    const todayData = await Datas[Datas.length - 1];
+    const yesterdayData = await Datas[Datas.length - 2];
 
     document.getElementById("updateDate").innerHTML = todayData.UpdateDate;
 
@@ -95,11 +82,15 @@ const updateDataInSite = async () => {
 };
 
 fetchData();
+updateDataInSite();
 
 window.addEventListener("DOMContentLoaded", async () => {
-    const infectedArr = await fetchData().then((r) => r.Arrs.infectedArr);
-    const deathArr = await fetchData().then((r) => r.Arrs.deathArr);
-    const dateArr = await fetchData().then((r) => r.Arrs.dateArr);
+    const rawDatas = await fetchData();
+    const infectedArr = rawDatas.infectedArr;
+    const deathArr = rawDatas.deathArr;
+    const dateArr = rawDatas.dateArr;
+
+    updateDataInSite();
 
     var infectedChart_ctx = document.getElementById("infectedChart").getContext("2d");
     var infectedChart = new Chart(infectedChart_ctx, {
