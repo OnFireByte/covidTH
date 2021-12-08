@@ -7,9 +7,6 @@ const comma = (x) => {
 
 let memo;
 async function fetchData() {
-    document.getElementById("showWhenFetch").style.display = "block";
-    document.getElementById("loading").style.display = "none";
-
     if (memo) {
         return memo;
     }
