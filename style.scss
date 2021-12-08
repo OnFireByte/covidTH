@@ -15,7 +15,7 @@ body {
     margin: 24px;
 }
 .main {
-    width: 100vw;
+    width: 90vw;
     margin: 0 auto;
     min-height: calc(100%-50px);
 }
@@ -33,7 +33,7 @@ body {
 }
 .chart {
     height: 300px;
-    width: 100%;
+    width: 80%;
     position: relative;
     margin: 30px 0px;
 }
@@ -46,12 +46,12 @@ body {
     display: grid;
     width: 80%;
     grid-gap: 10px;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 5fr 4fr auto;
 
     grid-template-areas:
-        "infected infected infected infected infected infected death death death death"
-        "hospitalized hospitalized hospitalized hospitalized hospitalized recovered recovered recovered recovered recovered "
+        "infected infected infected infected infected death death death death death"
+        "recovered recovered recovered recovered recovered recovered recovered recovered recovered recovered "
         "total total total total total total total  total total total ";
     margin: 0 auto;
 }
@@ -135,6 +135,11 @@ body {
 }
 .chart-container {
     margin-top: 100px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 @media (min-width: 1000px) {
     .main {
@@ -144,6 +149,7 @@ body {
         display: flex;
         width: 100%;
         justify-content: center;
+        flex-direction: row;
     }
     .chart {
         height: 500px;
@@ -166,9 +172,9 @@ body {
     }
     .box-container {
         grid-template-areas:
-            "infected infected infected infected infected infected death death death death"
-            "hospitalized hospitalized hospitalized hospitalized hospitalized recovered recovered recovered recovered recovered "
-            ". . total total total total total  total . . ";
+            " infected infected infected infected infected death death death "
+            ". . recovered recovered recovered recovered . . "
+            " . total total total total total total . ";
     }
     .total-title {
         width: auto;

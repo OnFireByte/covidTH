@@ -13,7 +13,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.4.1/dist/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript.util/0.12.12/javascript.util.min.js"></script>
-    <script src="covidapi.min.js"></script>
+    <script src="covidapi.js"></script>
     <link rel="stylesheet" href="style.min.css">
     <link href='https://fonts.googleapis.com/css?family=Kanit:400,300&subset=thai,latin' rel='stylesheet'
         type='text/css'>
@@ -59,12 +59,6 @@
                         (<span class="small-num" id="deathDiff"></span>)
                     </div>
                 </div>
-                <div class="hospitalized box"><span class="box-header">Hospitalized</span>
-                    <div>
-                        <span class="big-num" id="hospitalized"></span>
-                        (<span class="small-num" id="hospitalizedDiff"></span>)
-                    </div>
-                </div>
                 <div class="recovered box"><span class="box-header">Recovered</span>
                     <div>
                         <span class="big-num" id="recovered"></span>
@@ -79,9 +73,6 @@
                         </div>
                         <div class="total-death">
                             <div class="total-title">Death :</div> <span id="totalDeath"></span>
-                        </div>
-                        <div class="total-hospitalized">
-                            <div class="total-title">Hospitalized :</div> <span id="totalHospitalized"></span>
                         </div>
                         <div class="total-recovered">
                             <div class="total-title">Recovered :</div> <span id="totalRecovered"></span>
